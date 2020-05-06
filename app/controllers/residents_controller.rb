@@ -3,9 +3,12 @@ class ResidentsController < ApplicationController
     @resident = Resident.new
   end
 
+  def index
+    @residents = Resident.all
+  end
+
   def show
   end
 
-  def index
-  end
+
 end
