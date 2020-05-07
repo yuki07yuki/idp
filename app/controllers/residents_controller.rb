@@ -28,11 +28,17 @@ class ResidentsController < ApplicationController
   end
 
   def update
+
+    Resident
+    .find_by( unit: params[:unit],floor: params[:floor] )
+    .update(updated_params)
+
     redirect_to '/residents/index'
   end
 
   private
 
+    # Create
     def resident_params
       add_password_to_params
       params.require(:resident).permit(:floor, :unit, :name, :ic,
@@ -49,5 +55,12 @@ class ResidentsController < ApplicationController
       # TODO: Implement password sending to the new registered resident
     end
 
+    # Update
+    def updated_params
+      debugger
+      params
+      .require(:resident)
+      .permit(:floor, :unit, :name, :ic,:phone, :email)
+    end
 
 end
