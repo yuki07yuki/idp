@@ -23,29 +23,38 @@ class ResidentsController < ApplicationController
   end
 
   def edit
-    @resident = Resident.find_by( unit: params[:unit],
-                                  floor: params[:floor] )
+    @resident = the_resident
   end
 
   def update
-
-    Resident
-    .find_by( unit: params[:unit],floor: params[:floor] )
-    .update(updated_params)
-
+    the_resident.update(updated_params)
     redirect_to '/residents/index'
+  end
+
+  def destroy
+    the_resident.destroy
+    flash[:success] = "Resident deleted"
+    redirect_to 'residents/index'
   end
 
   private
 
+    # all
+    def the_resident
+      Resident.find_by( unit: params[:unit],floor: params[:floor] )
+    end
+
     # Create
     def resident_params
       add_password_to_params
-      params.require(:resident).permit(:floor, :unit, :name, :ic,
-        :phone, :email, :password, :password_confirmation)
+      params
+      .require(:resident)
+      .permit(:floor, :unit, :name, :ic, :phone,
+        :email, :password, :password_confirmation)
     end
 
     def add_password_to_params
+      # TODO: Change the password
       password = SecureRandom.urlsafe_base64
       params[:resident][:password] = "000000"
       params[:resident][:password_confirmation] = "000000"
@@ -57,7 +66,6 @@ class ResidentsController < ApplicationController
 
     # Update
     def updated_params
-      debugger
       params
       .require(:resident)
       .permit(:floor, :unit, :name, :ic,:phone, :email)
