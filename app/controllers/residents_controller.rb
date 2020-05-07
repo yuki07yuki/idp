@@ -19,7 +19,7 @@ class ResidentsController < ApplicationController
   end
 
   def index
-    @residents = Resident.all
+    @residents = Resident.all.order(:floor).order(:unit)
   end
 
   def edit
@@ -34,7 +34,7 @@ class ResidentsController < ApplicationController
   def destroy
     the_resident.destroy
     flash[:success] = "Resident deleted"
-    redirect_to 'residents/index'
+    redirect_to '/residents/index'
   end
 
   private

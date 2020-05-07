@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   get 'residents/:floor/:unit/edit', to: 'residents#edit'
   patch 'residents/:floor/:unit/edit', to: 'residents#update'
 
-  # delete 'residents/:floor/:unit', to: 'residents#destroy'
+  delete 'residents/:floor/:unit', to: 'residents#destroy'
 
 end
