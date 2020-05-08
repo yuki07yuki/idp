@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root 'sessions#new'
+
 # Resident
   # register new resident
   get 'sessions/new'
@@ -23,5 +25,7 @@ Rails.application.routes.draw do
   get 'login' , to: 'sessions#new'
   post 'login', to: 'sessions#create'
 
+  #logout
+  delete 'logout', to: 'sessions#destroy'
 
 end
