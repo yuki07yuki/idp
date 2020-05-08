@@ -1,12 +1,12 @@
 class ResidentsController < ApplicationController
+
   def new
     @resident = Resident.new
   end
 
+
   def create
-
     @resident = Resident.new(resident_params)
-
     if @resident.save
       flash[:success] = "Resident succesfully registered"
       redirect_to "/residents/index"
@@ -15,27 +15,32 @@ class ResidentsController < ApplicationController
       flash.now[:danger] = 'Something went wrong!'
       render 'new'
     end
-
   end
+
 
   def index
-    @residents = Resident.all.order(:floor).order(:unit)
+    @residents = Resident.all.where.not(admin:true)
+                          .order(:floor).order(:unit)
   end
+
 
   def edit
     @resident = the_resident
   end
+
 
   def update
     the_resident.update(updated_params)
     redirect_to '/residents/index'
   end
 
+
   def destroy
     the_resident.destroy
     flash[:success] = "Resident deleted"
     redirect_to '/residents/index'
   end
+
 
   private
 

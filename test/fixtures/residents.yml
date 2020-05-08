@@ -4,8 +4,16 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+
+admin:
+  name: admin
+  password_digest: <%= Resident.digest('000000')%>
+  admin: true
+
+
+<% 30.times do |n| %>
+resident_<%= n %>:
+  name: <%= "User #{n}" %>
+  email: <%= "user-#{n}@example.com" %>
+  password_digest: <%= Resident.digest('000000') %>
+<% end %>
