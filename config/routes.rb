@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'sessions/new'
   get 'register', to: 'residents#new'
   post 'register', to: 'residents#create'
 
