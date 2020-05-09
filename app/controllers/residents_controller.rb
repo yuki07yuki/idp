@@ -1,4 +1,7 @@
 class ResidentsController < ApplicationController
+  include SessionsHelper
+  
+  before_action :admin
 
   def new
     @resident = Resident.new
@@ -76,4 +79,11 @@ class ResidentsController < ApplicationController
       .permit(:floor, :unit, :name, :ic,:phone, :email)
     end
 
+    # check before every action
+    def admin
+      unless (current_user && current_user.admin?)
+        flash[:danger] = "Please log in to continue"
+        redirect_to '/login'
+      end
+    end
 end

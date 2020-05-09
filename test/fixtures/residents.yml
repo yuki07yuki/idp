@@ -10,10 +10,13 @@ admin:
   password_digest: <%= Resident.digest('000000')%>
   admin: true
 
-
-<% 30.times do |n| %>
-resident_<%= n %>:
-  name: <%= "User #{n}" %>
-  email: <%= "user-#{n}@example.com" %>
+<% 1.upto(10) do |floor| %>
+  <% 1.upto(15) do |unit| %>
+resident_<%= floor %>_<%= unit%>:
+  floor: floor
+  unit: unit
+  name: <%= "#{floor} - #{unit}" %>
+  email: <%= "#{floor}-#{unit}@example.com" %>
   password_digest: <%= Resident.digest('000000') %>
+  <% end %>
 <% end %>
