@@ -15,11 +15,11 @@
       <div class="drop-down">
         <div class='col-md-6'>
           <%= f.label :floor %>
-          <%= f.select(:floor, options_for_select(floors)) %>
+          <%= f.select(:floor, options_for_select(floors, @resident.floor)) %>
         </div>
         <div class='col-md-6'>
           <%= f.label :unit %>
-          <%= f.select(:unit, options_for_select(units))%>
+          <%= f.select(:unit, options_for_select(units, @resident.unit))%>
         </div>
       </div>
     </div>
