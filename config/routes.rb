@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root 'sessions#new'
 
+
 # Resident
   # register new resident
   get 'sessions/new'
