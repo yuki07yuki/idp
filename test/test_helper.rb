@@ -24,9 +24,9 @@ end
 class ActionDispatch::IntegrationTest
 
   def login_as(user, password: '000000')
-    post login_path, params: {
-                                session: { name: user.name,
-                                            password: password }}
+    post login_path,
+      params: { session: { username: user.name, password: password }}
+    # post login_path, params: { session: { username: user.name, password: password } }
   end
 
 end

@@ -1,6 +1,6 @@
 class ResidentsController < ApplicationController
   include SessionsHelper
-  
+
   before_action :admin
 
   def new
@@ -34,6 +34,7 @@ class ResidentsController < ApplicationController
 
   def update
     the_resident.update(updated_params)
+    flash[:success] = "Successfully updated"
     redirect_to '/residents/index'
   end
 

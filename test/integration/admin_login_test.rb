@@ -2,52 +2,103 @@ require 'test_helper'
 
 class AdminLoginTest < ActionDispatch::IntegrationTest
 
-  test 'unsuccessful login' do
+  def setup
+    @admin = residents :admin
+    @non_admin = residents :non_admin
+  end
+
+  test 'failed login with wrong info' do
     get '/login'
-    assert_template 'sessions/new'
-    assert_select "a[href=?]", '/login'
+    correct_login_page?
 
-    post login_path, params: { session: { username: "", password: "" } }
-    assert_template 'sessions/new'
-    assert_select "a[href=?]", '/login'
-    assert_equal 'Invalid username or password', flash[:danger] , 'wrong flash message'
+    login(@admin, password:"")
+    failed_login
 
-    get root_path
-    assert flash.empty?
+    flash_all_cleared?
 
   end
 
-  test 'succesful login' do
+  test 'failed login with corrent info but non_admin' do
     get '/login'
-    assert_template 'sessions/new'
-    assert_select "a[href=?]", '/login'
+    correct_login_page?
 
-    post login_path, params: { session: { username: "admin", password: "000000" } }
-    assert_redirected_to '/residents/index'
-    follow_redirect!
+    login(@non_admin)
+    failed_login
 
-    assert_equal 'Successfully logged in', flash[:success], 'wrong flash message'
-    assert_select "a[href=?]", '/logout'
+    flash_all_cleared?
 
-    get root_path
-    assert flash.empty?
+  end
+
+
+  test 'succesful login with admin' do
+    get '/login'
+    correct_login_page?
+
+    login @admin
+    succesful_login
+
+    flash_all_cleared?
   end
 
   test 'logout' do
     get '/login'
-    post login_path, params: { session: { username: "admin", password: "000000" } }
-    follow_redirect!
-    assert_select "a[href=?]", '/logout'
+    correct_login_page?
 
-    delete logout_path
-    assert_redirected_to '/login'
-    follow_redirect!
+    login @admin
+    succesful_login
 
-    assert_select "a[href=?]", '/login'
+    logout
+    succesful_logout
+
+    flash_all_cleared?
+
   end
 
 
 
+  private
+
+
+      def login(user , password: nil)
+        password = "000000" if password == nil
+        post login_path, params: { session: { username: user.name, password: password } }
+      end
+
+      def logout
+        delete logout_path
+      end
+
+      def correct_login_page?
+        assert_template 'sessions/new'
+        assert_select "a[href=?]", '/login'
+      end
+
+
+      def failed_login
+        assert_template 'sessions/new'
+        assert_select "a[href=?]", '/login'
+        assert_equal 'Invalid username or password',
+                      flash[:danger] , 'wrong flash message'
+      end
+
+      def succesful_login
+        assert_redirected_to '/residents/index'
+        follow_redirect!
+
+        assert_equal 'Successfully logged in', flash[:success], 'wrong flash message'
+        assert_select "a[href=?]", '/logout'
+      end
+
+      def succesful_logout
+        assert_redirected_to '/login'
+        follow_redirect!
+        assert_select "a[href=?]", '/login'
+      end
+
+      def flash_all_cleared?
+        get root_path
+        assert flash.empty?
+      end
 
 
 end
