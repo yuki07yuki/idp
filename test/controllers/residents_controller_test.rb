@@ -64,7 +64,7 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
             password:              "000000",
             password_confirmation: "000000" )
     after_count = Resident.count
-    
+
     assert_equal before_count + 1, after_count
 
     assert_redirected_to '/residents/index'
@@ -79,16 +79,15 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
     login(@admin)
     get "/residents/#{@r1.floor}/#{@r1.unit}/edit"
     assert_template 'residents/edit'
-    name = "Foo Bar"
-    email = "foo@bar.com"
-    update(@r1, name: name, email: email)
+
+    update(@r1, name: new_name, email: new_email )
 
     assert_not flash.empty?
     assert_redirected_to "/residents/index"
 
     @r1.reload
-    assert_equal name, @r1.name
-    assert_equal email, @r1.email
+    assert_equal new_name, @r1.name
+    assert_equal new_email, @r1.email
   end
 
 
@@ -117,6 +116,14 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
       def flash_all_cleared?
         get root_path
         assert flash.empty?
+      end
+
+      def new_name
+        "Foo"
+      end
+
+      def new_email
+        "foo@bar.com"
       end
 
 end
