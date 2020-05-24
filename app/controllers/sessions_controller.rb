@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if are_you_admin?
+    if are_you_admin? && with_correct_password?
       login admin
       flash[:success] = 'Successfully logged in'
       redirect_to '/residents/index'
@@ -45,6 +45,10 @@ class SessionsController < ApplicationController
 
     def trying_to_login_user
       Resident.find_by(name: params[:session][:username])
+    end
+
+    def with_correct_password?
+      trying_to_login_user.authenticate(params[:session][:password])
     end
 
 end
