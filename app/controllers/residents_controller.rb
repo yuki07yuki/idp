@@ -13,7 +13,7 @@ class ResidentsController < ApplicationController
     if @resident.save
       flash[:success] = "Resident succesfully registered"
       redirect_to "/residents/index"
-      send_password_to_resident
+      send_password_to_resident(@resident)
     else
       flash.now[:danger] = 'Something went wrong!'
       render 'new'
@@ -50,7 +50,7 @@ class ResidentsController < ApplicationController
 
     # all
     def the_resident
-      Resident.find_by( unit: params[:unit],floor: params[:floor] )
+      Resident.find_by( unit: params[:unit], floor: params[:floor] )
     end
 
     # Create
@@ -63,14 +63,18 @@ class ResidentsController < ApplicationController
     end
 
     def add_password_to_params
-      # TODO: Change the password
-      password = SecureRandom.urlsafe_base64
-      params[:resident][:password] = "000000"
-      params[:resident][:password_confirmation] = "000000"
+      password = SecureRandom.urlsafe_base64(10)
+      params[:resident][:password] = password
+      params[:resident][:password_confirmation] = password
     end
 
-    def send_password_to_resident
-      # TODO: Implement password sending to the new registered resident
+    def send_password_to_resident(resident)
+      message = "Your resident password is '#{params[:resident][:password]}'"
+      TwilioClient.new.send_whatsapp(resident.phone, message)
+    end
+
+    def password
+      params[:resident][:password]
     end
 
     # Update
