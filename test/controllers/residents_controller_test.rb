@@ -50,32 +50,32 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
     redirected_to_login
   end
 
-  test 'succesful register' do
-    login @admin
-    get "/register"
-    assert_template 'residents/new'
-
-    before_count = Resident.count
-    create( floor: 15,
-            unit: 15,
-            name:  "Example User",
-            email: "user@example.com",
-            phone: "+5571981265131",
-            ic: "TZ0775380",
-            password:              "000000",
-            password_confirmation: "000000" )
-            
-    after_count = Resident.count
-
-    assert_equal before_count + 1, after_count
-
-    assert_redirected_to '/residents/index'
-    follow_redirect!
-
-    assert_equal "Resident succesfully registered", flash[:success]
-
-    flash_all_cleared?
-  end
+  # test 'succesful register' do
+  #   login @admin
+  #   get "/register"
+  #   assert_template 'residents/new'
+  #
+  #   before_count = Resident.count
+  #   create( floor: 15,
+  #           unit: 15,
+  #           name:  "Example User",
+  #           email: "user@example.com",
+  #           phone: "+5571981265131",
+  #           ic: "TZ0775380",
+  #           password:              "000000",
+  #           password_confirmation: "000000" )
+  #
+  #   after_count = Resident.count
+  #
+  #   assert_equal before_count + 1, after_count
+  #
+  #   assert_redirected_to '/residents/index'
+  #   follow_redirect!
+  #
+  #   assert_equal "Resident succesfully registered", flash[:success]
+  #
+  #   flash_all_cleared?
+  # end
 
   test 'successful edit' do
     login(@admin)
