@@ -60,9 +60,11 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
             unit: 15,
             name:  "Example User",
             email: "user@example.com",
+            phone: "+5571981265131",
             ic: "TZ0775380",
             password:              "000000",
             password_confirmation: "000000" )
+            
     after_count = Resident.count
 
     assert_equal before_count + 1, after_count
