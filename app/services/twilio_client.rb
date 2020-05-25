@@ -16,7 +16,7 @@ class TwilioClient
 
   def send_whatsapp(phone, message)
     @client.messages.create(
-                           from: 'whatsapp:+14155238886',
+                           from: "whatsapp:#{sender}",
                            body: message,
                            to: "whatsapp:#{phone}"
                          )
@@ -25,11 +25,15 @@ class TwilioClient
   private
 
       def account_sid
-        ENV['ACCOUNT_SID']
+        Rails.application.credentials.twilio[:account_sid]
       end
 
       def auth_token
-        ENV['AUTH_TOKEN']
+        Rails.application.credentials.twilio[:auth_token]
+      end
+
+      def sender
+        Rails.application.credentials.twilio[:sender]
       end
 
 end
