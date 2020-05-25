@@ -13,6 +13,7 @@ gem 'turbolinks', '5.2.0'
 gem 'jbuilder',   '2.9.1'
 gem 'bootsnap',   '1.4.5', require: false
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+gem 'twilio-ruby'
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'
