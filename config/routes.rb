@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   root 'sessions#new'
 
-
 # Resident
+
   # register new resident
   get 'sessions/new'
   get 'register', to: 'residents#new'
@@ -28,5 +28,10 @@ Rails.application.routes.draw do
 
   #logout
   delete 'logout', to: 'sessions#destroy'
+
+
+# Twilio
+
+  post 'twilio', to: 'twilio#create'
 
 end
