@@ -3,13 +3,13 @@ class WhatsappHandler
     phone = params["From"]
     body = params["Body"]
 
-    "You messaged us saying..... #{body}!"
+    "You messaged us saying..... '#{body}'"
     # check the phone? to see if its resident or visitor
-    if resident? phone
-      # start the resident chat
-    elsif visitor? phone
-      # start the visitor chat   
-    end
+    # if resident? phone
+    #   # start the resident chat
+    # elsif visitor? phone
+    #   # start the visitor chat
+    # end
 
   end
 
