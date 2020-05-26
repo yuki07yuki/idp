@@ -1,6 +1,5 @@
 class ResidentsController < ApplicationController
   include SessionsHelper
-
   before_action :admin
 
   def new
@@ -69,7 +68,7 @@ class ResidentsController < ApplicationController
     end
 
     def send_password_to_resident(resident)
-      message = "Your resident password is '#{params[:resident][:password]}'"
+      message = "Your secret resident key is '#{params[:resident][:password]}'"
       TwilioClient.new.send_whatsapp(resident.phone, message)
     end
 
