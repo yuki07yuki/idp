@@ -1,0 +1,2 @@
+class VisitorPassController < ApplicationController
+end
