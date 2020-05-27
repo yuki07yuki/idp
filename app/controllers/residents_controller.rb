@@ -9,10 +9,13 @@ class ResidentsController < ApplicationController
 
   def create
     @resident = Resident.new(resident_params)
+    password = generate_password
+    @resident.update(password: password,
+                      password_confirmation: password)
     if @resident.save
       flash[:success] = "Resident succesfully registered"
       redirect_to "/residents/index"
-      send_password_to_resident(@resident)
+      ResidentMailer.registration(@resident, password).deliver_now
     else
       flash.now[:danger] = 'Something went wrong!'
       render 'new'
@@ -53,12 +56,18 @@ class ResidentsController < ApplicationController
     end
 
     # Create
-    def resident_params
+    def resident_params2
       add_password_to_params
       params
       .require(:resident)
       .permit(:floor, :unit, :name, :ic, :phone,
         :email, :password, :password_confirmation)
+    end
+
+    def resident_params
+      params
+      .require(:resident)
+      .permit(:floor, :unit, :name, :ic, :phone,:email)
     end
 
     def add_password_to_params
@@ -67,7 +76,11 @@ class ResidentsController < ApplicationController
       params[:resident][:password_confirmation] = password
     end
 
-    def send_password_to_resident(resident)
+    def generate_password
+      SecureRandom.urlsafe_base64(10)
+    end
+
+    def whatsapp_password_to_resident(resident)
       message = "Your secret resident key is '#{params[:resident][:password]}'"
       TwilioClient.new.send_whatsapp(resident.phone, message)
     end
