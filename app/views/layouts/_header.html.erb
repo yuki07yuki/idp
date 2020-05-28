@@ -10,13 +10,16 @@
         </button>
       </div>
       <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <li><%= link_to "Home", "#" %></li>
-        <li><%= link_to "Help", "#" %></li>
+        <li><%= link_to "Visitor Pass", new_visitor_pass_path %></li>
+        <li><%= link_to "Residents Database", '/residents/index' %></li>
 
         <% if logged_in? %>
-          <li><%= link_to "Log out", '/logout', method: :delete %></li>
+
+          <li><%= link_to "Log out",
+                        '/logout', method: :delete %> </li>
+
         <% else %>
-          <li><%= link_to "Log in", '/login' %></li>
+          <li><%= link_to "Admin", '/login' %></li>
         <% end %>
 
       </ul>
