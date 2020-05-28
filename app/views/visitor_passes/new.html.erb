@@ -1,0 +1,46 @@
+<% provide(:title, 'Visitor Pass') %>
+
+<h1>Visitor Pass</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+  <%= form_with( url: visitor_passes_path ) do |f| %>
+
+  <%
+    floors = 1.upto(10).to_a
+    units = 1.upto(15).to_a
+  %>
+    <div class="form-group">
+      <div class="drop-down">
+        <div class='col-md-6'>
+          <%= f.label :floor %>
+          <%= f.select(:floor, options_for_select(floors)) %>
+        </div>
+        <div class='col-md-6'>
+          <%= f.label :unit %>
+          <%= f.select(:unit, options_for_select(units))%>
+        </div>
+      </div>
+    </div>
+
+    <%= f.label :resident_key, "Your Resident Key" %>
+    <%= f.password_field :resident_key , class: 'form-control' %>
+
+    <%= f.label :visitor_name, "Visitor's Name" %>
+    <%= f.text_field :visitor_name, class: 'form-control' %>
+
+    <%= f.label :phone, "Visitor's Phone No." %>
+    <%= f.text_field :phone, class: 'form-control' %>
+
+    <p>Please supply a secret key for this visitor. <br>
+      The vistor will be asked at the guard house for verification.</p>
+
+    <%= f.label :secret_key,  "Secret Key" %>
+    <%= f.text_field :secret_key, class: 'form-control' %>
+
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+  </div>
+
+</div>

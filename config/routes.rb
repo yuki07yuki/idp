@@ -34,4 +34,9 @@ Rails.application.routes.draw do
 
   post 'twilio', to: 'twilio#create'
 
+
+# Visitor Pass
+
+  resources :visitor_passes, only: [:new, :create]
+
 end
