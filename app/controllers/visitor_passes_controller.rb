@@ -1,15 +1,20 @@
 class VisitorPassesController < ApplicationController
 
   def new
+    @visitor_pass = VisitorPass.new
   end
 
   def create
     debugger
 
     unless resident? && correct_password?
-      # render 'new_visitor_pass_path'
-      # return
+      flash.now[:danger] = "Wrong credentials"
+      render new_visitor_pass_path
+      return
     end
+
+
+
 
   end
 
@@ -25,9 +30,9 @@ class VisitorPassesController < ApplicationController
       end
 
       def resident?
-        Resident.find_by(floor: params[:floor],
+        @resident = Resident.find_by(floor: params[:floor],
                           unit: params[:unit])
-
+        @resident
       end
 
       def correct_password?
