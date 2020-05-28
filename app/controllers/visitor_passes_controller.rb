@@ -26,7 +26,7 @@ class VisitorPassesController < ApplicationController
 
       def resident?
         Resident.find_by(floor: params[:floor],
-                          unit:, params[:unit])
+                          unit: params[:unit])
 
       end
 
