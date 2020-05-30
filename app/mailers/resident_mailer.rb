@@ -6,8 +6,10 @@ class ResidentMailer < ApplicationMailer
   end
 
 
-  def visitor_details_email
-
+  def visitor_details(visitor_pass, resident)
+    @visitor_pass = visitor_pass
+    @resident = resident
+    mail to: resident.email, subject: "Please Submit Visitor Details"
   end
 
 end
