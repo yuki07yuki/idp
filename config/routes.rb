@@ -31,12 +31,13 @@ Rails.application.routes.draw do
 
 
 # Twilio
-
   post 'twilio', to: 'twilio#create'
 
 
 # Visitor Pass
-
   resources :visitor_passes, only: [:new, :create]
+
+# Visitor Details
+  resources :visitor_details, only: [:new, :create, :edit, :update]
 
 end
