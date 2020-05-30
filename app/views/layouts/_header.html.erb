@@ -10,8 +10,9 @@
         </button>
       </div>
       <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <li><%= link_to "Visitor Pass", new_visitor_pass_path %></li>
-        <li><%= link_to "Residents Database", '/residents/index' %></li>
+        <% unless @controller && @controller == "visitor_passes" %>
+          <li><%= link_to "Residents Database", '/residents/index' %></li>
+        <% end %>
 
         <% if logged_in? %>
 
