@@ -8,15 +8,28 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
 
   test 'cannot apply if resident verification fails' do
     get new_visitor_pass_path
-    assert_template 'visitor_pass/new'
+    assert_template 'visitor_passes/new'
 
-    post new_visitor_pass_path , params: {resident_key: "" }
-    assert_template 'visitor_path/new'
-    assert_equal "Wrong credentials.", flash[:danger], "Wrong flash"
+    post visitor_passes_path , params: {resident_key: "" }
+    assert_template 'visitor_passes/new'
+    assert_equal "Invalid resident key.", flash[:danger], "Wrong flash"
 
+    flash_all_cleared?
+  end
+
+  test 'can apply if you are a resident' do
+    get new_visitor_pass_path
+    assert_template 'visitor_passes/new'
+
+    post visitor_passes_path , params: {resident_key: "000000" }
+    assert_equal "You are a resident", flash[:success], "Wrong flash"
+
+      
   end
 
 
+
+  private
 
 
 
