@@ -11,6 +11,9 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     assert_template 'visitor_passes/new'
 
     post visitor_passes_path , params: {resident_key: "" }
+    assert_redirected_to new_visitor_pass_path
+    follow_redirect!
+
     assert_template 'visitor_passes/new'
     assert_equal "Invalid resident key.", flash[:danger], "Wrong flash"
 
@@ -20,11 +23,12 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
   test 'can apply if you are a resident' do
     get new_visitor_pass_path
     assert_template 'visitor_passes/new'
+    
+    post visitor_passes_path , params: {resident_key: "000000",
+                                          email: "yuki07yuki@gmail.com"}
+    # assert_equal "You are a resident", flash[:success], "Wrong flash"
 
-    post visitor_passes_path , params: {resident_key: "000000" }
-    assert_equal "You are a resident", flash[:success], "Wrong flash"
 
-      
   end
 
 
