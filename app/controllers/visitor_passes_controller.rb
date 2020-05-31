@@ -9,22 +9,22 @@ class VisitorPassesController < ApplicationController
 
   def create
     @resident = Resident.find_by(resident_params)
-
     unless @resident && correct_password?
       flash[:danger] = "Invalid resident key."
       redirect_to new_visitor_pass_path
       return
     end
-
     @visitor_pass = create_visitor_pass
     if @visitor_pass.save
       # send email
+      debugger
       ResidentMailer.visitor_details(@visitor_pass, @resident).deliver_now
+      flash[:success] = success_message
+      redirect_to root_path
     else
-      flash[:danger] = "Something went wrong."
-      redirect_to new_visitor_pass_path
+      flash[:danger] = failure_message
+     redirect_to new_visitor_pass_path
     end
-
 
   end
 
@@ -47,6 +47,16 @@ class VisitorPassesController < ApplicationController
 
       def generate_token
         SecureRandom.urlsafe_base64
+      end
+
+      def success_message
+        msg = "The email has been sent to the visitor.\n"
+        msg += "Thank you."
+        msg
+      end
+
+      def failure_message
+        msg = "Sorry. Something went wrong."
       end
 
 end
