@@ -4,5 +4,5 @@
 Please click the link provided below to obtain the visitor pass.
 <br>
 <br>
-<%= link_to "Visitor Pass", edit_visitor_detail_url(@visitor_pass.token, {resident_id: @resident.id} ) %>
+<%= link_to "Visitor Pass", edit_visitor_detail_url(@visitor_pass.token, {resident_id: @visitor_pass.resident_id} ) %>
 <p>
