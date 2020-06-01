@@ -17,8 +17,8 @@ class VisitorPassesController < ApplicationController
     @visitor_pass = create_visitor_pass
     if @visitor_pass.save
       # send email
-      debugger
-      ResidentMailer.visitor_details(@visitor_pass, @resident).deliver_now
+      # debugger
+      ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash[:success] = success_message
       redirect_to root_path
     else

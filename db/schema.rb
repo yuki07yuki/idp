@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_180808) do
+ActiveRecord::Schema.define(version: 2020_05_31_225250) do
 
   create_table "residents", force: :cascade do |t|
     t.integer "floor"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_180808) do
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
   end
 
 end
