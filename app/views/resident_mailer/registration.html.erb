@@ -4,4 +4,8 @@
 
 <p>Your secret resident key is <%= @password %></p>
 
-<p>Please use this key to apply for the visitor pass from this <a href="#">link</a></p>
+<p>Please use this key to apply for the visitor pass from the link below</p>
+<br>
+<br>
+
+<%= link_to "Apply for a visitor pass", new_visitor_pass_url %>
