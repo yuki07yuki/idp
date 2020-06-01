@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+# Home page
   root 'home_pages#home'
 
 # Resident
@@ -38,6 +39,7 @@ Rails.application.routes.draw do
   resources :visitor_passes, only: [:new, :create]
 
 # Visitor Details
-  resources :visitor_details, only: [:new, :create, :edit, :update]
+  resources :visitors, only: [:new, :create, :edit, :update]
+
 
 end
