@@ -8,12 +8,14 @@ class VisitorPassesController < ApplicationController
   end
 
   def create
+
     @resident = Resident.find_by(resident_params)
     unless @resident && correct_password?
       flash[:danger] = "Invalid resident key."
       redirect_to new_visitor_pass_path
       return
     end
+
     @visitor_pass = create_visitor_pass
     if @visitor_pass.save
       # send email
@@ -36,8 +38,11 @@ class VisitorPassesController < ApplicationController
       end
 
       def create_visitor_pass
+        # debugger
         VisitorPass.new(resident_id:    @resident.id,
+                          email: params[:email],
                           token:        generate_token,
+                          secret_key: params[:secret_key],
                           requested_at: Time.zone.now )
       end
 
