@@ -7,10 +7,11 @@
 
   <%= form_with( url: visitor_passes_path ) do |f| %>
 
-  <%
-    floors = 1.upto(10).to_a
-    units = 1.upto(15).to_a
-  %>
+    <%
+       floors = 1.upto(10).to_a
+       units = 1.upto(15).to_a
+    %>
+
     <div class="form-group">
       <div class="drop-down">
         <div class='col-md-6'>
@@ -23,7 +24,6 @@
         </div>
       </div>
     </div>
-
     <%= f.label :resident_key, "Your Resident Key" %>
     <%= f.password_field :resident_key , class: 'form-control' %>
 
