@@ -1,9 +1,9 @@
 class VisitorPass < ApplicationRecord
 
-  # validates(:name,  presence: true, length: {maximum: 50})
+  validates(:name,         presence: true, length: {maximum: 50})
   validates(:resident_id,  presence: true, length: {maximum: 50})
-  validates(:email,  presence: true, length: {maximum: 50})
-  validates(:secret_key,  presence: true, length: {maximum: 50})
+  validates(:email,        presence: true, length: {maximum: 50})
+  validates(:secret_key,   presence: true, length: {maximum: 50})
 
 
 
