@@ -4,7 +4,7 @@ class VisitorPassTest < ActiveSupport::TestCase
 
   def setup
     @resident1 = residents(:resident_1_1)
-    @visitor_pass = VisitorPass.new(name:"        athiga",
+    @visitor_pass = VisitorPass.new(visitors_name:"        athiga",
                                     resident_id:  @resident1.id,
                                     token:        generate_token,
                                     email:        "yuki07yuki@gmail.com",
@@ -19,7 +19,7 @@ class VisitorPassTest < ActiveSupport::TestCase
 
 
   test "visitor's name should not be empty" do
-    @visitor_pass.name = ""
+    @visitor_pass.visitors_name = ""
     assert_not @visitor_pass.valid?
   end
 
