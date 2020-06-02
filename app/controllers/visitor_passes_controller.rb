@@ -3,14 +3,15 @@ class VisitorPassesController < ApplicationController
 
   def new
     @visitor_pass = VisitorPass.new
+
+    # this is needed for the link in the header
     @controller = "visitor_passes"
-   # debugger
   end
 
   def create
+    # debugger
 
-    @resident = Resident.find_by(resident_params)
-    unless @resident && correct_password?
+    unless resident && correct_resident_key?
       flash[:danger] = "Invalid resident key."
       redirect_to new_visitor_pass_path
       return
@@ -25,7 +26,7 @@ class VisitorPassesController < ApplicationController
       redirect_to root_path
     else
       flash[:danger] = failure_message
-     redirect_to new_visitor_pass_path
+      redirect_to new_visitor_pass_path
     end
 
   end
@@ -37,17 +38,21 @@ class VisitorPassesController < ApplicationController
         params.permit(:floor, :unit)
       end
 
+      def resident
+        Resident.find_by(resident_params)
+      end
+
       def create_visitor_pass
         # debugger
-        VisitorPass.new(resident_id:    @resident.id,
-                          email: params[:email],
+        VisitorPass.new(resident_id:    resident.id,
+                          email:        params[:email],
+                          secret_key:   params[:secret_key],
                           token:        generate_token,
-                          secret_key: params[:secret_key],
                           requested_at: Time.zone.now )
       end
 
-      def correct_password?
-        @resident.authenticate(params[:resident_key])
+      def correct_resident_key?
+        resident.authenticate(params[:resident_key])
       end
 
       def generate_token
