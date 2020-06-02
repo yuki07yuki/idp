@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 # Home page
-  root 'home_pages#home'
+  root 'sessions#new'
 
 # Resident
 
