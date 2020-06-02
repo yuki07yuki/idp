@@ -12,8 +12,8 @@ class VisitorPassesController < ApplicationController
     # debugger
 
     unless resident && correct_resident_key?
-      flash[:danger] = "Invalid resident key."
-      redirect_to new_visitor_pass_path
+      flash.now[:danger] = "Invalid resident key."
+      render 'new'
       return
     end
 
@@ -21,11 +21,13 @@ class VisitorPassesController < ApplicationController
     if @visitor_pass.save
       # send email
       # debugger
-      ResidentMailer.visitor_details(@visitor_pass).deliver_now
+      # ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash[:success] = success_message
       redirect_to root_path
     else
       flash[:danger] = failure_message
+      # TODO: 
+      #change to render ?
       redirect_to new_visitor_pass_path
     end
 
