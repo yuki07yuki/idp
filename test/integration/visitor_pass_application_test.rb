@@ -23,7 +23,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     assert_template 'visitor_passes/new'
 
     post visitor_passes_path , params: {resident_key: "000000",
-                                          email: "yuki07yuki@gmail.com"}
+                                          visitors_email: "yuki07yuki@gmail.com"}
     # assert_equal "You are a resident", flash[:success], "Wrong flash"
 
 

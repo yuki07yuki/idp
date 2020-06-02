@@ -7,7 +7,7 @@
 
   <%= form_with( url: visitor_passes_path, local: true ) do |f| %>
 
-  
+
     <%
        floors = 1.upto(10).to_a
        units = 1.upto(15).to_a
@@ -28,10 +28,10 @@
     <%= f.label :resident_key, "Your Resident Key" %>
     <%= f.password_field :resident_key , class: 'form-control' %>
 
-    <%= f.label :visitor_name, "Visitor's Name" %>
+    <%= f.label :visitors_name, "Visitor's Name" %>
     <%= f.text_field :visitor_name, class: 'form-control' %>
 
-    <%= f.label :email, "Visitor's Email" %>
+    <%= f.label :visitors_email, "Visitor's Email" %>
     <%= f.email_field :email, class: 'form-control' %>
 
     <p>Please supply a secret key for this visitor. <br>

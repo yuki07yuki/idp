@@ -26,7 +26,7 @@ class VisitorPassesController < ApplicationController
       redirect_to root_path
     else
       flash[:danger] = failure_message
-      # TODO: 
+      # TODO:
       #change to render ?
       redirect_to new_visitor_pass_path
     end
@@ -47,7 +47,7 @@ class VisitorPassesController < ApplicationController
       def create_visitor_pass
         # debugger
         VisitorPass.new(resident_id:    resident.id,
-                          email:        params[:email],
+                          visitors_email:        params[:email],
                           secret_key:   params[:secret_key],
                           token:        generate_token,
                           requested_at: Time.zone.now )
