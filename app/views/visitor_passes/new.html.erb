@@ -25,14 +25,15 @@
         </div>
       </div>
     </div>
+    
     <%= f.label :resident_key, "Your Resident Key" %>
     <%= f.password_field :resident_key , class: 'form-control' %>
 
     <%= f.label :visitors_name, "Visitor's Name" %>
-    <%= f.text_field :visitor_name, class: 'form-control' %>
+    <%= f.text_field :visitors_name, class: 'form-control' %>
 
     <%= f.label :visitors_email, "Visitor's Email" %>
-    <%= f.email_field :email, class: 'form-control' %>
+    <%= f.email_field :visitors_email, class: 'form-control' %>
 
     <p>Please supply a secret key for this visitor. <br>
       The vistor will be asked at the guard house for verification.</p>
