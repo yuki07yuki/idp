@@ -11,7 +11,6 @@ class VisitorPassesController < ApplicationController
   def create
 
     @visitor_pass = create_visitor_pass
-
     unless @visitor_pass.save
       unless resident && correct_resident_key?
         @visitor_pass.errors.slice!
@@ -21,7 +20,7 @@ class VisitorPassesController < ApplicationController
     else
       # send email
       # ResidentMailer.visitor_details(@visitor_pass).deliver_now
-      flash[:success] = success_message
+      flash.now[:success] = success_message
       render 'home_pages/home'
     end
 
