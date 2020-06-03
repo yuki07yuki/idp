@@ -7,6 +7,7 @@
 
   <%= form_with( url: visitor_passes_path, local: true ) do |f| %>
 
+    <%= render partial: 'shared/error_messages', locals: { model: @visitor_pass } %>
 
     <%
        floors = 1.upto(10).to_a
@@ -25,7 +26,7 @@
         </div>
       </div>
     </div>
-    
+
     <%= f.label :resident_key, "Your Resident Key" %>
     <%= f.password_field :resident_key , class: 'form-control' %>
 
