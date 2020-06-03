@@ -9,7 +9,6 @@ class VisitorPassesController < ApplicationController
   end
 
   def create
-    # debugger
 
     unless resident && correct_resident_key?
       flash.now[:danger] = "Invalid resident key."
@@ -20,10 +19,9 @@ class VisitorPassesController < ApplicationController
     @visitor_pass = create_visitor_pass
     if @visitor_pass.save
       # send email
-      # debugger
       # ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash[:success] = success_message
-      redirect_to root_path
+      render 'home_pages/home'
     else
       flash[:danger] = failure_message
       # TODO:
@@ -44,13 +42,19 @@ class VisitorPassesController < ApplicationController
         Resident.find_by(resident_params)
       end
 
+      def visitor_pass_params
+        params.permit(  :visitors_name,
+                        :visitors_email,
+                        :secret_key )
+      end
+
       def create_visitor_pass
-        # debugger
-        VisitorPass.new(resident_id:    resident.id,
-                          visitors_email:        params[:email],
-                          secret_key:   params[:secret_key],
-                          token:        generate_token,
-                          requested_at: Time.zone.now )
+        vs = VisitorPass.new(visitor_pass_params)
+        vs.update(resident_id:      resident.id,
+                    token:          generate_token,
+                    requested_at:   Time.zone.now,
+                    created_at:     Time.zone.now )
+        vs
       end
 
       def correct_resident_key?
