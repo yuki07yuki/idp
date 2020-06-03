@@ -13,7 +13,7 @@ class VisitorPassTest < ActiveSupport::TestCase
 
   end
 
-  test 'resident_key should not be empty' do
+  test 'resident_id should not be empty' do
     @visitor_pass.resident_id = ""
     assert_not @visitor_pass.valid?
   end
@@ -26,6 +26,11 @@ class VisitorPassTest < ActiveSupport::TestCase
 
   test "visitor's email should not be empty" do
     @visitor_pass.visitors_email = ""
+    assert_not @visitor_pass.valid?
+  end
+
+  test 'token should not be empty' do
+    @visitor_pass.token = ""
     assert_not @visitor_pass.valid?
   end
 
