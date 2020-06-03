@@ -10,24 +10,21 @@ class VisitorPassesController < ApplicationController
 
   def create
 
-    unless resident && correct_resident_key?
-      flash.now[:danger] = "Invalid resident key."
-      render 'new'
-      return
-    end
-
     @visitor_pass = create_visitor_pass
-    if @visitor_pass.save
+
+    unless @visitor_pass.save
+      unless resident && correct_resident_key?
+        @visitor_pass.errors.slice!
+        @visitor_pass.errors.add(:base, "Resident key is invalid.")
+      end
+      render 'new'
+    else
       # send email
       # ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash[:success] = success_message
       render 'home_pages/home'
-    else
-      flash[:danger] = failure_message
-      # TODO:
-      #change to render ?
-      redirect_to new_visitor_pass_path
     end
+
 
   end
 
