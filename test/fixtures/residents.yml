@@ -7,11 +7,17 @@
 
 admin:
   name: admin
+  ic: <%= "#{Faker::IDNumber.valid}" %>
+  phone: <%= "#{Faker::PhoneNumber.cell_phone_in_e164}" %>
+  email: <%= "#{Faker::Internet.email}" %>
   password_digest: <%= Resident.digest('000000')%>
   admin: true
 
 non_admin:
   name: non_admin
+  ic: <%= "#{Faker::IDNumber.valid}" %>
+  phone: <%= "#{Faker::PhoneNumber.cell_phone_in_e164}" %>
+  email: <%= "#{Faker::Internet.email}" %>
   password_digest: <%= Resident.digest('000000')%>
   admin: false
 
@@ -21,6 +27,8 @@ resident_<%= floor %>_<%= unit%>:
   floor: <%= floor %>
   unit: <%= unit%>
   name: <%= "#{floor} - #{unit}" %>
+  ic: <%= "#{Faker::IDNumber.valid}" %>
+  phone: <%= "#{Faker::PhoneNumber.cell_phone_in_e164}" %>
   email: <%= "#{floor}-#{unit}@example.com" %>
   password_digest: <%= Resident.digest('000000') %>
   <% end %>
