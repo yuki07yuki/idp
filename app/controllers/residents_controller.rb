@@ -13,7 +13,7 @@ class ResidentsController < ApplicationController
     @resident.update(password: password,
                       password_confirmation: password)
     if @resident.save
-      flash[:success] = "Resident succesfully registered"
+      flash[:success] = "Resident successfully registered"
       redirect_to "/residents/index"
       ResidentMailer.registration(@resident, password).deliver_now
     else
