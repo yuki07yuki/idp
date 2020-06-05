@@ -5,7 +5,10 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
 
-  <%= form_for( @resident, url: "/residents/#{@resident.floor}/#{@resident.unit}/edit" ) do |f| %>
+  <%= form_for( @resident, url: "/residents/#{@resident.floor}/#{@resident.unit}/edit" , local: true ) do |f| %>
+
+    <%= render partial: 'shared/error_messages', locals: { model: @resident } %>
+
     <%
       floors = 1.upto(10).to_a
       units = 1.upto(15).to_a
