@@ -12,6 +12,8 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_equal "Please log in to continue", flash[:danger]
+
+    flash_cleared?
   end
 
   test 'cannot register if any of the field is empty' do
@@ -24,11 +26,12 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
       submit_registration({field => ''})
       after = Resident.count
       assert_equal before, after, "#{field} should not be allowed empty"
-      
-      field = change_field_for_output(field)
+
+      field = change_case_for_output(field)
       assert_select 'div#error_explanation', text: "#{field} can't be blank"
     end
 
+    flash_cleared?
   end
 
   test 'cannot register if there already an exisiting resident in the unit' do
@@ -53,11 +56,13 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
     after = Resident.count
     assert_equal before + 1, after
 
+    assert_equal 1, ActionMailer::Base.deliveries.size
+
     assert_redirected_to residents_index_path
     follow_redirect!
     assert_equal 'Resident successfully registered', flash[:success]
 
-    flash__cleared?
+    flash_cleared?
 
   end
 
@@ -79,7 +84,7 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
                                   password_confirmation: password_confirmation }}
     end
 
-    def change_field_for_output(field)
+    def change_case_for_output(field)
       result = ""
       if field == :ic
         result = field.to_s.upcase

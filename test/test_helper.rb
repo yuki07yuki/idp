@@ -18,7 +18,7 @@ class ActiveSupport::TestCase
     session[:user_id] = user.id
   end
 
-  def flash__cleared?
+  def flash_cleared?
     get root_path
     assert flash.empty?
   end

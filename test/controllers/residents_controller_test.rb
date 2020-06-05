@@ -74,7 +74,7 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
   #
   #   assert_equal "Resident succesfully registered", flash[:success]
   #
-  #   flash__cleared?
+  #   flash_cleared?
   # end
 
   test 'successful edit' do
@@ -115,7 +115,7 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
         post '/register', params: { resident: hash }
       end
 
-      def flash__cleared?
+      def flash_cleared?
         get root_path
         assert flash.empty?
       end

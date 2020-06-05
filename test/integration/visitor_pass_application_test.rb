@@ -14,7 +14,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
 
     assert_template 'visitor_passes/new'
 
-    flash__cleared?
+    flash_cleared?
   end
 
   test 'cannot apply if any of the field is empty' do
@@ -43,7 +43,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     assert_equal before + 1 , after
     assert_template 'home_pages/home'
     assert_equal success_message, flash[:success]
-    flash__cleared?
+    flash_cleared?
   end
 
 
