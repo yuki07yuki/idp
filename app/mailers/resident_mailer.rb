@@ -1,5 +1,5 @@
 class ResidentMailer < ApplicationMailer
-  def registration(resident, password)
+  def registration_email(resident, password)
     @resident = resident
     @password = password
     mail to: resident.email, subject: "Registration Successful"

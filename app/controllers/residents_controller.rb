@@ -15,9 +15,8 @@ class ResidentsController < ApplicationController
     if @resident.save
       flash[:success] = "Resident successfully registered"
       redirect_to "/residents/index"
-      ResidentMailer.registration(@resident, password).deliver_now
+      ResidentMailer.registration_email(@resident, password).deliver_now
     else
-      flash.now[:danger] = 'Something went wrong!'
       render 'new'
     end
   end
