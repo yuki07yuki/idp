@@ -7,11 +7,11 @@ Rails.application.routes.draw do
 
   # register new resident
   get 'sessions/new'
-  get 'register', to: 'residents#new'
+  get 'register', to: 'residents#new', as: 'register'
   post 'register', to: 'residents#create'
 
   # show all residents
-  get 'residents/index'
+  get 'residents/index', to: 'residents#index'
 
   # edit resident info
   get 'residents/:floor/:unit/edit', to: 'residents#edit'
