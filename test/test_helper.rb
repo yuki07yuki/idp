@@ -18,7 +18,7 @@ class ActiveSupport::TestCase
     session[:user_id] = user.id
   end
 
-  def flash_all_cleared?
+  def flash__cleared?
     get root_path
     assert flash.empty?
   end
@@ -32,7 +32,6 @@ class ActionDispatch::IntegrationTest
   def login_as(user, password: '000000')
     post login_path,
       params: { session: { username: user.name, password: password }}
-    # post login_path, params: { session: { username: user.name, password: password } }
   end
 
 end

@@ -14,7 +14,7 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
     login(@admin, password:"")
     failed_login
 
-    flash_all_cleared?
+    flash__cleared?
 
   end
 
@@ -25,7 +25,7 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
     login(@non_admin)
     failed_login
 
-    flash_all_cleared?
+    flash__cleared?
 
   end
 
@@ -37,7 +37,7 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
     login @admin
     succesful_login
 
-    flash_all_cleared?
+    flash__cleared?
   end
 
   test 'logout' do
@@ -50,7 +50,7 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
     logout
     succesful_logout
 
-    flash_all_cleared?
+    flash__cleared?
 
   end
 
@@ -95,7 +95,7 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
         assert_select "a[href=?]", '/login'
       end
 
-      def flash_all_cleared?
+      def flash__cleared?
         get root_path
         assert flash.empty?
       end
