@@ -34,9 +34,14 @@ class ResidentsController < ApplicationController
 
 
   def update
-    the_resident.update(updated_params)
-    flash[:success] = "Successfully updated"
-    redirect_to '/residents/index'
+    @resident = the_resident
+    if @resident.update(updated_params)
+      flash[:success] = "Successfully updated"
+      redirect_to '/residents/index'
+    else
+      # debugger
+      render 'edit'
+    end
   end
 
 
@@ -93,6 +98,10 @@ class ResidentsController < ApplicationController
       params
       .require(:resident)
       .permit(:floor, :unit, :name, :ic,:phone, :email)
+    end
+
+    def updated_params2
+      params.require(:resident).permit(:name, :ic, :phone, :email)
     end
 
     # check before every action
