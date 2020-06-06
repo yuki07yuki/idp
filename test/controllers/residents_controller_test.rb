@@ -115,10 +115,6 @@ class ResidentsControllerTest < ActionDispatch::IntegrationTest
         post '/register', params: { resident: hash }
       end
 
-      def flash_cleared?
-        get root_path
-        assert flash.empty?
-      end
 
       def new_name
         "Foo"

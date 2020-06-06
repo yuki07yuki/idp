@@ -95,10 +95,5 @@ class AdminLoginTest < ActionDispatch::IntegrationTest
         assert_select "a[href=?]", '/login'
       end
 
-      def flash_cleared?
-        get root_path
-        assert flash.empty?
-      end
-
 
 end
