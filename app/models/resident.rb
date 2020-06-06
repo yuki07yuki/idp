@@ -18,7 +18,7 @@ class Resident < ApplicationRecord
 
     def the_only_resident
       if Resident.find_by(floor: floor, unit: unit)
-        errors.add(:base, "Only one resident can be registered per unit")
+        errors.add(:base, "Resident has already been registered in the unit")
       end
     end
 
