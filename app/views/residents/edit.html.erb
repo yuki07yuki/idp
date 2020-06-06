@@ -8,24 +8,7 @@
   <%= form_for( @resident, url: "/residents/#{@resident.floor}/#{@resident.unit}/edit" , local: true ) do |f| %>
 
     <%= render partial: 'shared/error_messages', locals: { model: @resident } %>
-
-    <%
-      floors = 1.upto(10).to_a
-      units = 1.upto(15).to_a
-    %>
-    <div class="form-group">
-      <div class="drop-down">
-        <div class='col-md-6'>
-          <%= f.label :floor %>
-          <%= f.select(:floor, options_for_select(floors, @resident.floor)) %>
-        </div>
-        <div class='col-md-6'>
-          <%= f.label :unit %>
-          <%= f.select(:unit, options_for_select(units, @resident.unit))%>
-        </div>
-      </div>
-    </div>
-
+    
     <%= f.label :name %>
     <%= f.text_field :name, class: 'form-control' %>
 
