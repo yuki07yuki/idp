@@ -5,6 +5,7 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
   def setup
     @admin = residents(:admin)
     @non_admin = residents(:non_admin)
+    @yuki = residents(:yuki)
   end
 
   test 'cannot visit update page if not admin' do
@@ -35,6 +36,15 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
   end
 
   test 'can update if everything is ok' do
+    login_as @admin
+
+    get '/residents/1/1/edit'
+    assert_template 'residents/edit'
+
+    submit_form(name: new_name, phone: new_phone)
+
+    # yuki = Resident.find_by(floor: "1", unit: "1")
+
 
   end
 
@@ -43,7 +53,7 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
     def submit_form( name: 'Yuki', ic:"TZ0775380",
                       phone: "0107939912", email: "yuki07yuki@gmail.com" )
       patch '/residents/1/1/edit',
-            params: {resident: {  floor: "1", unit: "1", name: name, ic: ic,
+            params: {resident: { name: name, ic: ic,
                                   phone: phone, email: email }}
     end
 
@@ -59,6 +69,13 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
           end
         end
 
+        def new_name
+          "Yuki Yoshimine"
+        end
+
+        def new_phone
+          "+60123456789"
+        end
 
 
 end
