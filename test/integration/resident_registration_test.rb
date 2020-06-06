@@ -85,12 +85,7 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
     end
 
     def change_case_for_output(field)
-      result = ""
-      if field == :ic
-        result = field.to_s.upcase
-      else
-        result = field.to_s.capitalize
-      end
+      field == :ic ? field.to_s.upcase : field.to_s.capitalize
     end
 
 end
