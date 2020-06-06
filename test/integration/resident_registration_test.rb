@@ -44,7 +44,7 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
     assert_equal before, after
 
     assert_template 'residents/new'
-    assert_select 'div#error_explanation', text: "Only one resident can be registered per unit"
+    assert_select 'div#error_explanation', text: "Resident has already been registered in the unit"
   end
 
   test 'can register if everything is fine' do
