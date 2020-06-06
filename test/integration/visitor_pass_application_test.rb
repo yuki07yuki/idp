@@ -10,9 +10,9 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     get new_visitor_pass_path
     assert_template 'visitor_passes/new'
 
-    post visitor_passes_path , params: {resident_key: "" }
-
+    submit_form(resident_key: "123")
     assert_template 'visitor_passes/new'
+    assert_select 'div#error_explanation', {text: "Resident key is invalid"}
 
     flash_cleared?
   end
@@ -22,12 +22,13 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     get new_visitor_pass_path
     assert_template 'visitor_passes/new'
 
-    post visitor_passes_path , params: {resident_key: "000000",
-                                          visitors_email: "yuki07yuki@gmail.com",
-                                          visitors_name: "",
-                                          secret_key: "" }
-    assert_template 'visitor_passes/new'
-    assert_select 'div#error_explanation'
+    [:visitors_name, :visitors_email, :secret_key].each do |field|
+      submit_form({field => ""})
+      # assert_template 'visitor_passes/new'
+      assert_select 'div#error_explanation', {}, "#{field} should not be allowed empty"
+
+      flash_cleared?
+    end
 
   end
 
@@ -35,10 +36,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     get new_visitor_pass_path
     assert_template 'visitor_passes/new'
     before = VisitorPass.count
-    post visitor_passes_path , params: {  resident_key: "000000",
-                                          visitors_email: "yuki07yuki@gmail.com",
-                                          visitors_name: "athiga",
-                                          secret_key: "banana" }
+    submit_form
     after = VisitorPass.count
     assert_equal before + 1 , after
     assert_template 'home_pages/home'
@@ -54,6 +52,16 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
         msg = "The email has been sent to the visitor.\n"
         msg += "Thank you."
         msg
+      end
+
+
+      def submit_form(resident_key: "000000",visitors_email: "yuki07yuki@gmail.com", visitors_name: "Yuki", secret_key: "banana")
+        post visitor_passes_path ,
+                  params: {  resident_key: resident_key,
+                             visitors_email: visitors_email,
+                             visitors_name: visitors_name,
+                             secret_key: secret_key }
+
       end
 
 
