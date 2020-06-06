@@ -30,7 +30,7 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
     [:name, :ic, :phone, :email].each do |field|
       submit_form({field => ""})
       field = change_case_for_output(field)
-      assert_select 'div#error_explanation', text: "#{field} can't be blank"
+      assert_select 'div#error_explanation', {text: "#{field} can't be blank"}, "#{field} is being allowed empty"
     end
 
   end
@@ -42,9 +42,17 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
     assert_template 'residents/edit'
 
     submit_form(name: new_name, phone: new_phone)
+    assert_redirected_to '/residents/index'
+    follow_redirect!
 
-    # yuki = Resident.find_by(floor: "1", unit: "1")
+    assert_equal 'Successfully updated', flash[:success]
 
+    updated_user = Resident.find_by(floor: '1', unit: '1')
+    updated_user.reload
+    assert_equal new_name, updated_user.name
+    assert_equal new_phone, updated_user.phone
+
+    flash_cleared?
 
   end
 
@@ -76,6 +84,5 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
         def new_phone
           "+60123456789"
         end
-
 
 end
