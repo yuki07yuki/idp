@@ -11,18 +11,37 @@ class VisitorPassesController < ApplicationController
   def create
 
     @visitor_pass = create_visitor_pass
-    unless @visitor_pass.save
-      unless resident && correct_resident_key?
-        @visitor_pass.errors.slice!
-        @visitor_pass.errors.add(:base, "Resident key is invalid.")
-      end
+
+    if invalid_resident_key?
+      @visitor_pass.errors.slice!
+      @visitor_pass.errors.add(:base, "Resident key is invalid")
       render 'new'
-    else
+      return
+    end
+
+    if @visitor_pass.save
       # send email
       # ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash.now[:success] = success_message
       render 'home_pages/home'
+    else
+      render 'new'
     end
+
+
+
+    # unless @visitor_pass.save
+    #   unless resident && correct_resident_key?
+    #     @visitor_pass.errors.slice!
+    #     @visitor_pass.errors.add(:base, "Resident key is invalid.")
+    #   end
+    #   render 'new'
+    # else
+    #   # send email
+    #   # ResidentMailer.visitor_details(@visitor_pass).deliver_now
+    #   flash.now[:success] = success_message
+    #   render 'home_pages/home'
+    # end
 
 
   end
@@ -55,6 +74,10 @@ class VisitorPassesController < ApplicationController
 
       def correct_resident_key?
         resident.authenticate(params[:resident_key])
+      end
+
+      def invalid_resident_key?
+        resident && !resident.authenticate(params[:resident_key])
       end
 
       def generate_token
