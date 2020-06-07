@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_174625) do
+ActiveRecord::Schema.define(version: 2020_06_07_063901) do
 
   create_table "residents", force: :cascade do |t|
     t.integer "floor"
@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(version: 2020_06_02_174625) do
     t.string "visitors_email"
     t.string "secret_key"
     t.string "visitors_name"
+  end
+
+  create_table "visitors", force: :cascade do |t|
+    t.string "name"
+    t.string "ic"
+    t.string "phone"
+    t.string "email"
+    t.string "car_no"
+    t.string "secret_key"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
