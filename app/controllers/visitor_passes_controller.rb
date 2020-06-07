@@ -21,7 +21,7 @@ class VisitorPassesController < ApplicationController
 
     if @visitor_pass.save
       # send email
-      # ResidentMailer.visitor_details(@visitor_pass).deliver_now
+      ResidentMailer.visitor_details(@visitor_pass).deliver_now
       flash.now[:success] = success_message
       render 'home_pages/home'
     else
