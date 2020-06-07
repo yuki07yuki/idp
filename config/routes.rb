@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 # Visitor Pass
   resources :visitor_passes, only: [:new, :create]
 
-# Visitor Details
+# Visitor
   resources :visitors, only: [:new, :create, :edit, :update]
 
 
