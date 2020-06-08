@@ -1,1 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+visitor_pass_1:
+  resident_id: 371252942
+  token: "12345"
+  visitors_name: "Athiga"
+  visitors_email: "athiga@gmail.com"
+  secret_key: "banana"
+  requested_at: <%= Time.zone.now %>
