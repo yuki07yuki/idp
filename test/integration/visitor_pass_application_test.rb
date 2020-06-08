@@ -55,13 +55,14 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
       end
 
 
-      def submit_form(resident_key: "000000",visitors_email: "yuki07yuki@gmail.com", visitors_name: "Yuki", secret_key: "banana")
+      def submit_form(resident_key: "000000", visitors_email: "yuki07yuki@gmail.com", visitors_name: "Yuki", secret_key: "banana" )
         post visitor_passes_path ,
-                  params: {  resident_key: resident_key,
-                             visitors_email: visitors_email,
-                             visitors_name: visitors_name,
-                             secret_key: secret_key }
-
+          params: {
+          resident_key: resident_key,
+          visitors_email: visitors_email,
+          visitors_name: visitors_name,
+          secret_key: secret_key
+        }
       end
 
 
