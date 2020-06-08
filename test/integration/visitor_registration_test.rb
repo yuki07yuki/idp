@@ -9,7 +9,6 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'cannot visit a page if id and token do not match' do
-    puts "Resident ID: " + @resident.id.to_s
     get new_visitor_path(resident_id: "1", token: @pass.token) # wrong id corrent token
     assert_equal 'Invalid Link', flash[:danger]
     assert_redirected_to root_path

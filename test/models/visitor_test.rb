@@ -6,7 +6,7 @@ class VisitorTest < ActiveSupport::TestCase
                            ic: "TZ0775380",
                            phone: "0107939912",
                            email: "yuki07yuki@gmail.com",
-                           car_no: "wtu2348",
+                           car: "wtu2348",
                            secret_key: "banana")
   end
 
@@ -20,7 +20,7 @@ class VisitorTest < ActiveSupport::TestCase
   end
 
   test 'car number can be empty' do
-    @visitor.car_no = ""
+    @visitor.car = ""
     assert @visitor.valid?
   end
 
