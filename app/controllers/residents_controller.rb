@@ -6,12 +6,11 @@ class ResidentsController < ApplicationController
     @resident = Resident.new
   end
 
-
   def create
     @resident = Resident.new(resident_params)
     password = generate_password
     @resident.update(password: password,
-                      password_confirmation: password)
+                     password_confirmation: password)
     if @resident.save
       flash[:success] = "Resident successfully registered"
       redirect_to "/residents/index"
@@ -20,7 +19,6 @@ class ResidentsController < ApplicationController
       render 'new'
     end
   end
-
 
   def index
     @residents = Resident.all.where.not(admin:true)
