@@ -28,7 +28,7 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
       assert_equal before, after, "#{field} should not be allowed empty"
 
       field = change_case_for_output(field)
-      assert_select 'div#error_explanation', text: "#{field} can't be blank"
+      assert_select 'ul', text: "#{field} can't be blank"
     end
 
     flash_cleared?
@@ -44,7 +44,7 @@ class ResidentRegistrationTest < ActionDispatch::IntegrationTest
     assert_equal before, after
 
     assert_template 'residents/new'
-    assert_select 'div#error_explanation', text: "Resident has already been registered in the unit"
+    assert_select 'ul', text: "Resident has already been registered in the unit"
   end
 
   test 'can register if everything is fine' do

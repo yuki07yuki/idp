@@ -30,7 +30,7 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
     [:name, :ic, :phone, :email].each do |field|
       submit_form({field => ""})
       field = change_case_for_output(field)
-      assert_select 'div#error_explanation', {text: "#{field} can't be blank"}, "#{field} is being allowed empty"
+      assert_select 'ul', {text: "#{field} can't be blank"}, "#{field} is being allowed empty"
     end
 
   end

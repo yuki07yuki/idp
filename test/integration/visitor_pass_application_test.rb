@@ -12,7 +12,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
 
     submit_form(resident_key: "123")
     assert_template 'visitor_passes/new'
-    assert_select 'div#error_explanation', {text: "Resident key is invalid"}
+    assert_select 'ul', {text: "Resident key is invalid"}
 
     flash_cleared?
   end
@@ -25,7 +25,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     [:visitors_name, :visitors_email, :secret_key].each do |field|
       submit_form({field => ""})
       # assert_template 'visitor_passes/new'
-      assert_select 'div#error_explanation', {}, "#{field} should not be allowed empty"
+      assert_select 'ul', {}, "#{field} should not be allowed empty"
 
       flash_cleared?
     end
