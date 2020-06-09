@@ -1,23 +1,34 @@
 class VisitorsController < ApplicationController
 
   def new
-
-    debugger
-
-    unless resident? && valid_token?
-      flash[:danger] = 'Invalid Link'
-      redirect_to root_path
-      return
+    if resident && visitor_pass
+      @visitor = Visitor.new
+    else
+      flash.now[:danger] = 'Invalid Link'
+      render "home_pages/home"
     end
-
-    # delete the visitor_pass object from the database
-
-
-
-
   end
 
   def create
+    @visitor = Visitor.new(visitor_params)
+
+    # debugger
+
+    if @visitor.save
+
+      # delete visitor pass
+      visitor_pass.delete
+      flash.now[:success] = "The QR code has been sent to your email"
+
+      # Create a QR code and send to the visitor
+
+      render 'home_pages/home'
+    else
+      render 'new'
+    end
+
+
+
 
   end
 
@@ -25,16 +36,26 @@ class VisitorsController < ApplicationController
 
   private
 
-      def resident?
+      def resident
         Resident.find_by(id: params[:resident_id])
       end
 
-      def valid_token?
-
-        VisitorPass.find_by(
-                             token:      params[:token],
-                             resident_id: params[:resident_id])
+      def visitor_pass
+        VisitorPass.find_by( visitor_pass_params )
       end
 
+      def visitor_pass_params
+        params.permit(:token, :resident_id)
+      end
+
+      def visitor_params
+        params.require(:visitor)
+              .permit(:name,
+                  :ic,
+                  :phone,
+                  :email,
+                  :car,
+                  :secret_key)
+      end
 
 end
