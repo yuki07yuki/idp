@@ -16,11 +16,13 @@ class VisitorsController < ApplicationController
 
     if @visitor.save
 
-      # delete visitor pass
       visitor_pass.delete
       flash.now[:success] = "The QR code has been sent to your email"
 
-      # Create a QR code and send to the visitor
+      qrcode = QrcodeClient.new(@visitor)
+      IO.binwrite("qrcode.png", qrcode.as_png.to_s)
+
+      # ResidentMailer.qrcode(@visitor, qrcode.as_ansi).deliver_now
 
       render 'home_pages/home'
     else
