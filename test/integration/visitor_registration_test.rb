@@ -75,6 +75,12 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     assert_template 'home_pages/home'
     assert_equal "Invalid Link", flash[:danger], "Wrong flash message"
     flash_cleared?
+
+  end
+
+  test 'QR code should be sent to the visitor after the registration' do
+    qr = QrcodeClient.new
+
   end
 
 
