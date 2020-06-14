@@ -2,7 +2,6 @@
 
 <p>
 Here is your QR code for your visitor pass.<br>
-Please present this code at the guard house when you arrive<br>
+Please present this code at the guard house when you arrive.<br>
 <br>
-<%= @qrcode %>
-
+<%= image_tag(attachments['qrcode.png'].url, size: "360x360") %>
