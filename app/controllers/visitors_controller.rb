@@ -1,8 +1,7 @@
 class VisitorsController < ApplicationController
 
   def new
-    debugger
-    if resident && visitor_pass && !visitor_pass.expired?
+    if resident && visitor_pass && !visitor_pass.expired? && visitor_pass.active?
       @visitor = Visitor.new
       @visitor_pass = visitor_pass
       @resident = resident
@@ -16,10 +15,8 @@ class VisitorsController < ApplicationController
     @visitor = Visitor.new(visitor_params)
     @visitor_pass = VisitorPass.find_by(id: params['visitor_pass_id'])
     @resident = Resident.find_by(id: params['resident_id'])
-    # debugger
 
     # verify the secret key submitted by the visitor
-    # debugger
 
     if correct_secret_key? && @visitor.save
 
@@ -29,8 +26,7 @@ class VisitorsController < ApplicationController
       qrcode_client.generate2(resident: @resident, visitor: @visitor, path: path)
       ResidentMailer.qrcode(@visitor, path).deliver_now
 
-      # delete the visitor pass and qr code
-      # visitor_pass.delete
+      @visitor_pass.update(active: false)
 
       render 'home_pages/home'
     else
@@ -39,12 +35,8 @@ class VisitorsController < ApplicationController
         @visitor.errors.delete :secret_key
         @visitor.errors.add(:secret_key, "Please ask the resident for the correct secret key")
       end
-      # debugger
       render 'new'
     end
-
-
-
 
   end
 

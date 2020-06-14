@@ -4,12 +4,12 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
 
   def setup
     @resident = residents(:resident_1_1)
-    @pass = visitor_passes(:visitor_pass_1)
+    @visitor_pass = visitor_passes(:visitor_pass_1)
     @old_pass = visitor_passes(:old_pass)
   end
 
   test 'visitor cannot visit a page if id and token do not match' do
-    get new_visitor_path(resident_id: wrong_id , token: @pass.token) # wrong id corrent token
+    get new_visitor_path(resident_id: wrong_id , token: @visitor_pass.token) # wrong id corrent token
     assert_equal 'Invalid Link', flash[:danger]
     assert_template 'home_pages/home'
     flash_cleared?
@@ -29,6 +29,10 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     flash_cleared?
   end
 
+  test 'visitor cannot visit the page if the visitor pass has already been issued' do
+
+  end
+
   test 'visitor cannot register if the secret key is wrong' do
     before = Visitor.count
     submit_form(secret_key: wrong_secret_key)
@@ -38,7 +42,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'visitor cannot register if any field is empty' do
-    get new_visitor_path(resident_id: @resident.id, token: @pass.token )
+    get new_visitor_path(resident_id: @resident.id, token: @visitor_pass.token )
 
     before = Visitor.count
     [:name, :ic, :phone, :email, :secret_key].each do |field|
@@ -82,21 +86,15 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     flash_cleared?
   end
 
-  test 'visitor pass should not be deleted after visitor registration' do
-    # before = VisitorPass.count
-    # submit_form( resident_id:  @resident.id,
-    #              visitor_pass_id: @pass.id )
-    # after = VisitorPass.count
+  test 'visitor pass should be void after successful submission' do
+    submit_form
+    visitor_pass = assigns(:visitor_pass)
+    assert_equal false, visitor_pass.active?
 
-    # assert_equal before, after, "Visitor Pass was deleted"
-
-    # get new_visitor_path( resident_id: @resident.id, token: @pass.token )
-    # assert_template 'home_pages/home'
-    # assert_equal "Invalid Link", flash[:danger], "Wrong flash message"
-    # flash_cleared?
-
-    submit_form( car: "no car" )
-
+    get new_visitor_path(resident_id: @resident.id , token: @visitor_pass.token)
+    assert_equal 'Invalid Link', flash[:danger]
+    assert_template 'home_pages/home'
+    flash_cleared?
   end
 
   test 'QR code should be sent to the visitor after the registration' do
@@ -107,7 +105,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
 
   private
 
-      def submit_form(resident_id = @resident.id , visitor_pass_id = @pass.id, **visitor_params)
+      def submit_form(resident_id = @resident.id , visitor_pass_id = @visitor_pass.id, **visitor_params)
 
         new_params = default_visitor_params
         visitor_params.each do |key,value|
