@@ -9,7 +9,10 @@
 
     <%= render partial: 'shared/error_messages', locals: { model: @visitor } %>
 
-    <%= f.label :name %>
+    <%= hidden_field_tag :resident_id, @resident.id %>
+    <%= hidden_field_tag :visitor_pass_id, @visitor_pass.id %>
+
+    <%= f.label :name, "Name" %>
     <%= f.text_field :name, class: 'form-control' %>
 
     <%= f.label :ic, "IC" %>
@@ -28,6 +31,7 @@
     <%= f.text_field :secret_key, class: 'form-control' %>
 
     <%= f.submit "Register", class: "btn btn-primary" %>
+
   <% end %>
 
   </div>
