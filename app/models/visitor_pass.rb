@@ -8,7 +8,7 @@ class VisitorPass < ApplicationRecord
 
 
 
-  def requested_at
+  def requested_at_now
     update_attribute(:requested_at, Time.zone.now)
   end
 
