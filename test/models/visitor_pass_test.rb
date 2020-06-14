@@ -4,6 +4,7 @@ class VisitorPassTest < ActiveSupport::TestCase
 
   def setup
     @resident1 = residents(:resident_1_1)
+    @old_pass = visitor_passes(:old_pass)
     @visitor_pass = VisitorPass.new(
                                     resident_id:    @resident1.id,
                                     visitors_name:  "athiga",
@@ -39,6 +40,9 @@ class VisitorPassTest < ActiveSupport::TestCase
     assert_not @visitor_pass.valid?
   end
 
+  test 'expires after 24 hours' do
+    assert @old_pass.expired?
+  end
 
   private
 

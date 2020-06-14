@@ -5,7 +5,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
   def setup
     @resident = residents(:resident_1_1)
     @pass = visitor_passes(:visitor_pass_1)
-
+    @old_pass = visitor_passes(:old_pass)
   end
 
   test 'visitor cannot visit a page if id and token do not match' do
@@ -19,6 +19,14 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     assert_template 'home_pages/home'
     flash_cleared?
 
+  end
+
+  test 'visitor cannot visit the page if the visitor pass expires' do
+    puts @old_pass.attributes
+    get new_visitor_path(resident_id: @resident.id, token: @old_pass.token )
+    assert_equal 'Invalid Link', flash[:danger]
+    assert_template 'home_pages/home'
+    flash_cleared?
   end
 
   test 'visitor cannot register if the secret key is wrong' do

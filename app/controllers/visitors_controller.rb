@@ -1,8 +1,8 @@
 class VisitorsController < ApplicationController
 
   def new
-    # debugger
-    if resident && visitor_pass
+    debugger
+    if resident && visitor_pass && !visitor_pass.expired?
       @visitor = Visitor.new
       @visitor_pass = visitor_pass
       @resident = resident
@@ -20,11 +20,6 @@ class VisitorsController < ApplicationController
 
     # verify the secret key submitted by the visitor
     # debugger
-    # verify if the pass is active
-    if !@visitor_pass.active?
-      # This link has been expired
-      # please ask the resident to resubmit the visitor pass
-    end
 
     if correct_secret_key? && @visitor.save
 

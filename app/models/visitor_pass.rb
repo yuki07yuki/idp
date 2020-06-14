@@ -12,4 +12,7 @@ class VisitorPass < ApplicationRecord
     update_attribute(:requested_at, Time.zone.now)
   end
 
+  def expired?
+    ( Time.zone.now - created_at ) >= 86400
+  end
 end
