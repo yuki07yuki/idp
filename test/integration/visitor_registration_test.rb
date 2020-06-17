@@ -28,8 +28,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
 
   test 'visitor cannot visit the page if the visitor pass has already been issued' do
     get new_visitor_path(resident_id: @resident.id, token: @used_pass.token )
-    assert_equal I18n.t('visitors.new.failure.used'), flash[:danger]
-    assert_template 'home_pages/home'
+    correct_redirect_used_link?
     flash_cleared?
   end
 
@@ -55,7 +54,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     assert_equal before + 1, after, "Visitor could not register without a car"
 
     correct_redirect_after_successful_registration?
-
+    qrcode_sent?
     flash_cleared?
   end
 
@@ -66,7 +65,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     assert_equal before + 1, after, "Visitor could not register"
 
     correct_redirect_after_successful_registration?
-
+    qrcode_sent?
     flash_cleared?
   end
 
@@ -79,11 +78,6 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     correct_redirect_used_link?
 
     flash_cleared?
-  end
-
-  test 'QR code should be sent to the visitor after the registration' do
-    qr = QrcodeClient.new
-
   end
 
 
@@ -146,6 +140,10 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
       def correct_redirect_after_successful_registration?
           assert_equal I18n.t('visitor.create.success'), flash[:success]
           assert_template  'home_pages/home'
+      end
+
+      def qrcode_sent?
+        assert_equal 1, ActionMailer::Base.deliveries.size
       end
 
       def wrong_id
