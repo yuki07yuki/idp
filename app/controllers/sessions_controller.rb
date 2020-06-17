@@ -10,17 +10,17 @@ class SessionsController < ApplicationController
   def create
     if are_you_admin? && with_correct_password?
       login admin
-      flash[:success] = 'Successfully logged in'
+      flash[:success] = t('.success')
       redirect_to '/residents/index'
     else
-      flash.now[:danger] = 'Invalid username or password'
+      flash.now[:danger] = t('.failure')
       render 'new'
     end
   end
 
   def destroy
     logout
-    flash[:success] = 'Successfully logged out'
+    flash[:success] = t('.success')
     redirect_to '/login'
   end
 
