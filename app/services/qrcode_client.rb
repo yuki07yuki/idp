@@ -46,8 +46,7 @@ class QrcodeClient
     end
     string += "\n"
     string += "Created\n"
-    string += "#{attributes['created_at'].to_formatted_s.slice(0..-8)}"
-
+    string += "#{attributes['created_at'].strftime("%d/%m/%Y %I:%M %p")}"
     string
   end
 
