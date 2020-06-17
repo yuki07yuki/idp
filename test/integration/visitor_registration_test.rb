@@ -6,31 +6,31 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     @resident = residents(:resident_1_1)
     @visitor_pass = visitor_passes(:visitor_pass_1)
     @old_pass = visitor_passes(:old_pass)
+    @used_pass = visitor_passes(:used_pass)
   end
 
   test 'visitor cannot visit a page if id and token do not match' do
     get new_visitor_path(resident_id: wrong_id , token: @visitor_pass.token) # wrong id corrent token
-    assert_equal 'Invalid Link', flash[:danger]
-    assert_template 'home_pages/home'
+    correct_redirect_invalid_link?
     flash_cleared?
 
     get new_visitor_path(resident_id: @resident.id, token: wrong_token ) # corrent id wrong token
-    assert_equal 'Invalid Link', flash[:danger]
-    assert_template 'home_pages/home'
+    correct_redirect_invalid_link?
     flash_cleared?
 
   end
 
   test 'visitor cannot visit the page if the visitor pass expires' do
-    puts @old_pass.attributes
     get new_visitor_path(resident_id: @resident.id, token: @old_pass.token )
-    assert_equal 'Invalid Link', flash[:danger]
-    assert_template 'home_pages/home'
+    correct_redirect_expired_link?
     flash_cleared?
   end
 
   test 'visitor cannot visit the page if the visitor pass has already been issued' do
-
+    get new_visitor_path(resident_id: @resident.id, token: @used_pass.token )
+    assert_equal I18n.t('visitors.new.failure.used'), flash[:danger]
+    assert_template 'home_pages/home'
+    flash_cleared?
   end
 
   test 'visitor cannot register if the secret key is wrong' do
@@ -38,25 +38,13 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     submit_form(secret_key: wrong_secret_key)
     after = Visitor.count
     assert_equal before, after
-    assert_select 'ul', text: "Please ask the resident for the correct secret key"
+    assert_select 'ul', text: invalid_secret_key_message
   end
 
   test 'visitor cannot register if any field is empty' do
     get new_visitor_path(resident_id: @resident.id, token: @visitor_pass.token )
 
-    before = Visitor.count
-    [:name, :ic, :phone, :email, :secret_key].each do |field|
-      submit_form( field => "" )
-      if field == :secret_key
-        assert_select 'ul', text: "Please ask the resident for the correct secret key"
-      else
-        field = change_case field
-        assert_select 'ul', text: "#{field} can't be blank"
-      end
-      after = Visitor.count
-      assert_equal before, after, "Empty #{field} was allowed"
-    end
-
+    any_empty_field_allowed?
 
   end
 
@@ -64,11 +52,9 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     before = Visitor.count
     submit_form(car: "")
     after = Visitor.count
-
     assert_equal before + 1, after, "Visitor could not register without a car"
 
-    assert_equal 'The QR code has been sent to your email', flash[:success]
-    assert_template  'home_pages/home'
+    correct_redirect_after_successful_registration?
 
     flash_cleared?
   end
@@ -77,11 +63,9 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     before = Visitor.count
     submit_form
     after = Visitor.count
-
     assert_equal before + 1, after, "Visitor could not register"
 
-    assert_equal 'The QR code has been sent to your email', flash[:success]
-    assert_template  'home_pages/home'
+    correct_redirect_after_successful_registration?
 
     flash_cleared?
   end
@@ -92,8 +76,8 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
     assert_equal false, visitor_pass.active?
 
     get new_visitor_path(resident_id: @resident.id , token: @visitor_pass.token)
-    assert_equal 'Invalid Link', flash[:danger]
-    assert_template 'home_pages/home'
+    correct_redirect_used_link?
+
     flash_cleared?
   end
 
@@ -129,15 +113,55 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
         field == :ic ? field.to_s.upcase : field.to_s.capitalize
       end
 
+      def any_empty_field_allowed?
+        before = Visitor.count
+        [:name, :ic, :phone, :email, :secret_key].each do |field|
+          submit_form( field => "" )
+          if field == :secret_key
+            assert_select 'ul', text: invalid_secret_key_message
+          else
+            field = change_case field
+            assert_select 'ul', text: "#{field} can't be blank"
+          end
+          after = Visitor.count
+          assert_equal before, after, "Empty #{field} was allowed"
+        end
+      end
+
+      def correct_redirect_invalid_link?
+        assert_equal I18n.t('visitors.new.failure.invalid'), flash[:danger]
+        assert_template 'home_pages/home'
+      end
+
+      def correct_redirect_expired_link?
+        assert_equal I18n.t('visitors.new.failure.expired'), flash[:danger]
+        assert_template 'home_pages/home'
+      end
+
+      def correct_redirect_used_link?
+        assert_equal I18n.t('visitors.new.failure.used'), flash[:danger]
+        assert_template 'home_pages/home'
+      end
+
+      def correct_redirect_after_successful_registration?
+          assert_equal I18n.t('visitor.create.success'), flash[:success]
+          assert_template  'home_pages/home'
+      end
+
       def wrong_id
         "1"
       end
 
       def wrong_token
-        "123456789"
+        "#$%"
       end
 
       def wrong_secret_key
-        "apple"
+        "#$%"
       end
+
+      def invalid_secret_key_message
+        I18n.t('visitors.create.failure.secret_key')
+      end
+
 end

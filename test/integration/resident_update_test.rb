@@ -45,7 +45,7 @@ class ResidentUpdateTest < ActionDispatch::IntegrationTest
     assert_redirected_to '/residents/index'
     follow_redirect!
 
-    assert_equal 'Successfully updated', flash[:success]
+    assert_equal 'Successfully updated.', flash[:success]
 
     updated_user = Resident.find_by(floor: '1', unit: '1')
     updated_user.reload
