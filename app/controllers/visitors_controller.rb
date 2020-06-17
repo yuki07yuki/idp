@@ -1,14 +1,31 @@
+require 'pry'
+
 class VisitorsController < ApplicationController
 
   def new
-    if resident && visitor_pass && !visitor_pass.expired? && visitor_pass.active?
-      @visitor = Visitor.new
-      @visitor_pass = visitor_pass
-      @resident = resident
-    else
-      flash.now[:danger] = 'Invalid Link'
+    # either resident or pass is wrong
+    if !resident || !visitor_pass
+      flash.now[:danger] = t('visitors.new.failure.invalid')
       render "home_pages/home"
+      return
     end
+
+    if visitor_pass.expired?
+      flash.now[:danger] = t('visitors.new.failure.expired')
+      render "home_pages/home"
+      return
+    end
+
+    if !visitor_pass.active?
+      flash.now[:danger] = t('visitors.new.failure.used')
+      render "home_pages/home"
+      return
+    end
+
+    @visitor = Visitor.new
+    @visitor_pass = visitor_pass
+    @resident = resident
+
   end
 
   def create
@@ -17,23 +34,20 @@ class VisitorsController < ApplicationController
     @resident = Resident.find_by(id: params['resident_id'])
 
     # verify the secret key submitted by the visitor
-
     if correct_secret_key? && @visitor.save
-
-      flash.now[:success] = "The QR code has been sent to your email"
-
-      qrcode_client = QrcodeClient.new
-      qrcode_client.generate2(resident: @resident, visitor: @visitor, path: path)
-      ResidentMailer.qrcode(@visitor, path).deliver_now
+      send_qrcode
+      # qrcode_client = QrcodeClient.new
+      # qrcode_client.generate2(resident: @resident, visitor: @visitor, path: path)
+      # ResidentMailer.qrcode(@visitor, path).deliver_now
 
       @visitor_pass.update(active: false)
 
+      flash.now[:success] = t('visitor.create.success')
       render 'home_pages/home'
     else
       unless correct_secret_key?
-        # @visitor.errors[:secret_key] = ""
         @visitor.errors.delete :secret_key
-        @visitor.errors.add(:secret_key, "Please ask the resident for the correct secret key")
+        @visitor.errors.add(:secret_key,t('visitors.create.failure.secret_key'))
       end
       render 'new'
     end
@@ -72,5 +86,12 @@ class VisitorsController < ApplicationController
 
       def correct_secret_key?
         @visitor.secret_key == @visitor_pass.secret_key
+      end
+
+      def send_qrcode
+        qrcode_client = QrcodeClient.new
+        qrcode_client.generate2(resident: @resident, visitor: @visitor, path: path)
+        ResidentMailer.qrcode(@visitor, path).deliver_now
+
       end
 end
