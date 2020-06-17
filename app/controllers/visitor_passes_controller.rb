@@ -84,9 +84,7 @@ class VisitorPassesController < ApplicationController
       end
 
       def success_message
-        msg = "The email has been sent to the visitor.\n"
-        msg += "Thank you."
-        msg
+         "The email has been sent to the visitor. Thank you."
       end
 
       def failure_message

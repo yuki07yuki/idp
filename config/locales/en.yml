@@ -30,6 +30,38 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  message:
+
+    expired: "This link has expired. Please ask the resident to apply for a new pass."
+    invalid: "Invalid link."
+
+    session:
+      login:
+        success: "Successfully logged in."
+        failure: "Invalid username or password."
+      logout:
+        success: "Successfully logged out."
+
+      resident:
+        registration:
+          success: "Resident successfully registered."
+          duplicate: "Resident has already been registered in the unit."
+        update:
+          success: "Successfully updated."
+        delete:
+          success: "Successfully deleted."
+
+      visitor:
+        new:
+          invalid_link: "Invalid link."
+        create:
+          success: "The QR code has been sent to your email"
+
+      visitor_pass:
+        create:
+          success: "The email has been sent to the visitor. Thank you."
+          invalid_resident_key: "Resident key is invalid."
+
   activerecord:
     errors:
       models:
@@ -43,9 +75,6 @@ en:
               format: "IC %{message}"
             secret_key:
               format: "%{message}"
-
-
-
 
 
 

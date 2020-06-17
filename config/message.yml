@@ -1,0 +1,23 @@
+message:
+  expired: "This link has expired. Please ask the resident to apply for a new pass."
+  invalid: "Invalid link."
+
+  wrong_secret_key:  "Please ask the resident for the correct secret key."
+  qrcode_sent:  'The QR code has been sent to your email'.
+
+  session:
+    please_login: "Please log in to continue."
+    login:
+      success: "Successfully logged in."
+      failure: "Invalid username or password."
+    logout:
+      success: "Successfully logged out."
+
+  resident:
+    registration:
+      success:   "Resident successfully registered."
+      duplicate: "Resident has already been registered in the unit."
+    update:
+      success: "Successfully updated."
+    delete:
+      success: "Successfully deleted."
