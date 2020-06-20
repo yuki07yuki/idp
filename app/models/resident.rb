@@ -3,7 +3,7 @@ class Resident < ApplicationRecord
   validate :the_only_resident, on: :create
   validates :name, presence: true
   # validates :ic, presence: true
-  validate :ic_is_present
+  validate :ic_must_be_present
   validates :phone, presence: true
   validates :email, presence: true
   validates :password, presence: true , length: { minimum: 6 }, allow_nil: true
@@ -22,7 +22,7 @@ class Resident < ApplicationRecord
       end
     end
 
-    def ic_is_present
+    def ic_must_be_present
       if ic.empty?
         errors.add(:base, "IC can't be blank")
       end

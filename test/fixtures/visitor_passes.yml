@@ -1,1 +1,26 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+visitor_pass_1:
+  resident_id: 371252942
+  token: "12345"
+  visitors_name: "Muhammad"
+  visitors_email: "idp@example.com"
+  secret_key: "banana"
+  requested_at: <%= Time.zone.now %>
+
+old_pass:
+  resident_id: 371252942
+  token: "123456789"
+  visitors_name: "Muhammad"
+  visitors_email: "idp@example.com"
+  secret_key: "banana"
+  created_at: <%= (Time.zone.now - 1.day) %>
+
+used_pass:
+  resident_id: 371252942
+  token: "abc"
+  visitors_name: "Muhammad"
+  visitors_email: "idp@example.com"
+  secret_key: "banana"
+  created_at: <%= (Time.zone.now) %>
+  active: false

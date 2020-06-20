@@ -12,7 +12,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
 
     submit_form(resident_key: "123")
     assert_template 'visitor_passes/new'
-    assert_select 'div#error_explanation', {text: "Resident key is invalid"}
+    assert_select 'ul', {text: "Resident key is invalid"}
 
     flash_cleared?
   end
@@ -25,7 +25,7 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
     [:visitors_name, :visitors_email, :secret_key].each do |field|
       submit_form({field => ""})
       # assert_template 'visitor_passes/new'
-      assert_select 'div#error_explanation', {}, "#{field} should not be allowed empty"
+      assert_select 'ul', {}, "#{field} should not be allowed empty"
 
       flash_cleared?
     end
@@ -49,19 +49,18 @@ class VisitorPassApplicationTest < ActionDispatch::IntegrationTest
   private
 
       def success_message
-        msg = "The email has been sent to the visitor.\n"
-        msg += "Thank you."
-        msg
+         "The email has been sent to the visitor. Thank you."
       end
 
 
-      def submit_form(resident_key: "000000",visitors_email: "yuki07yuki@gmail.com", visitors_name: "Yuki", secret_key: "banana")
+      def submit_form(resident_key: "000000", visitors_email: "yuki07yuki@gmail.com", visitors_name: "Yuki", secret_key: "banana" )
         post visitor_passes_path ,
-                  params: {  resident_key: resident_key,
-                             visitors_email: visitors_email,
-                             visitors_name: visitors_name,
-                             secret_key: secret_key }
-
+          params: {
+          resident_key: resident_key,
+          visitors_email: visitors_email,
+          visitors_name: visitors_name,
+          secret_key: secret_key
+        }
       end
 
 

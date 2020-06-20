@@ -30,4 +30,58 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  sessions:
+    create:
+      success: "Successfully logged in."
+      failure: "Invalid username or password."
+    destroy:
+      success: "Successfully logged out."
+
+  residents:
+    create:
+      success: "Resident successfully registered."
+      failure:
+        duplicate: "Resident has already been registered in the unit."
+    update:
+      success: "Successfully updated."
+    destroy:
+      success: "Successfully deleted."
+
+  visitors:
+    new:
+      failure:
+        expired: "This link has been expired. Please ask the resident to apply for a new visitor pass."
+        invalid: "Invalid link."
+        used: "This link has already been used once. Please ask the resident to apply for a new visitor pass."
+    create:
+      success: "The QR code has been sent to your email."
+      failure:
+        secret_key: "Please ask the resident for the correct secret key."
+
+  visitor_passes:
+    create:
+      success: "The email has been sent to the visitor. Thank you."
+      failure:
+        resident_key: "Resident key is invalid."
+
+  activerecord:
+    errors:
+      models:
+        resident:
+
+        visitor_pass:
+
+        visitor:
+          attributes:
+            ic:
+              format: "IC %{message}"
+            secret_key:
+              format: "%{message}"
+
+
+
+
+
+
+
+

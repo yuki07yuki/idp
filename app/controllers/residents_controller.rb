@@ -6,21 +6,19 @@ class ResidentsController < ApplicationController
     @resident = Resident.new
   end
 
-
   def create
     @resident = Resident.new(resident_params)
     password = generate_password
     @resident.update(password: password,
-                      password_confirmation: password)
+                     password_confirmation: password)
     if @resident.save
-      flash[:success] = "Resident successfully registered"
+      flash[:success] = t('.success')
       redirect_to "/residents/index"
       ResidentMailer.registration_email(@resident, password).deliver_now
     else
       render 'new'
     end
   end
-
 
   def index
     @residents = Resident.all.where.not(admin:true)
@@ -36,7 +34,7 @@ class ResidentsController < ApplicationController
   def update
     @resident = the_resident
     if @resident.update(updated_params)
-      flash[:success] = "Successfully updated"
+      flash[:success] = t('.success')
       redirect_to '/residents/index'
     else
       # debugger
@@ -47,7 +45,7 @@ class ResidentsController < ApplicationController
 
   def destroy
     the_resident.destroy
-    flash[:success] = "Resident deleted"
+    flash[:success] = t('.destroy')
     redirect_to '/residents/index'
   end
 

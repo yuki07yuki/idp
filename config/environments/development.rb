@@ -66,13 +66,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: host, protocol: 'http' }
 
   ActionMailer::Base.smtp_settings = {
-  :address              => 'smtp.gmail.com',
-  :port                 => '587',
-  :authentication       => :plain,
-  :user_name            => Rails.application.credentials.gmail[:username],
-  :password             => Rails.application.credentials.gmail[:password],
-  # :domain               => 'heroku.com',
-  :enable_starttls_auto => true
-}
-
+    :address              => 'smtp.gmail.com',
+    :port                 => '587',
+    :authentication       => :plain,
+    :user_name            => Rails.application.credentials.gmail[:username],
+    :password             => Rails.application.credentials.gmail[:password],
+    # :domain               => 'heroku.com',
+    :enable_starttls_auto => true
+  }
+  config.action_view.raise_on_missing_translations = true
 end

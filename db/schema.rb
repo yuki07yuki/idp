@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_063901) do
+ActiveRecord::Schema.define(version: 2020_06_08_171723) do
 
   create_table "residents", force: :cascade do |t|
     t.integer "floor"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_063901) do
     t.string "ic"
     t.string "phone"
     t.string "email"
-    t.string "car_no"
+    t.string "car"
     t.string "secret_key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

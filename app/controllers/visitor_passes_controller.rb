@@ -67,7 +67,6 @@ class VisitorPassesController < ApplicationController
         vs = VisitorPass.new(visitor_pass_params)
         vs.update(resident_id:      resident.id,
                     token:          generate_token,
-                    requested_at:   Time.zone.now,
                     created_at:     Time.zone.now )
         vs
       end
@@ -85,9 +84,7 @@ class VisitorPassesController < ApplicationController
       end
 
       def success_message
-        msg = "The email has been sent to the visitor.\n"
-        msg += "Thank you."
-        msg
+         "The email has been sent to the visitor. Thank you."
       end
 
       def failure_message
