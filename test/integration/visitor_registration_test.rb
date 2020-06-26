@@ -138,7 +138,7 @@ class VisitorRegistrationTest < ActionDispatch::IntegrationTest
       end
 
       def correct_redirect_after_successful_registration?
-          assert_equal I18n.t('visitor.create.success'), flash[:success]
+          assert_equal "The QR code has been sent to your email.", flash[:success]
           assert_template  'home_pages/home'
       end
 
