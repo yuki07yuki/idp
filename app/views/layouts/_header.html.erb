@@ -10,19 +10,16 @@
         </button>
       </div>
       <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <% unless @controller && @controller == "visitor_passes" %>
-          <li><%= link_to "Residents Database", '/residents/index' %></li>
+        <% if @controller && @controller = 'residents' %>
+
+          <% if logged_in? %>
+            <li><%= link_to "Log out",
+                          '/logout', method: :delete %> </li>
+          <% else %>
+            <li><%= link_to "Log in", '/login' %></li>
+          <% end %>
+
         <% end %>
-
-        <% if logged_in? %>
-
-          <li><%= link_to "Log out",
-                        '/logout', method: :delete %> </li>
-
-        <% else %>
-          <li><%= link_to "Admin", '/login' %></li>
-        <% end %>
-
       </ul>
     </nav>
   </div>
