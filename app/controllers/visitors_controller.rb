@@ -42,7 +42,7 @@ class VisitorsController < ApplicationController
 
       @visitor_pass.update(active: false)
 
-      flash.now[:success] = t('visitor.create.success')
+      flash.now[:success] = t('visitors.create.success')
       render 'home_pages/home'
     else
       unless correct_secret_key?
