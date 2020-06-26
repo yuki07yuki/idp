@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   include SessionsHelper
+  # before_action :set_controllers_name
 
   def new
     if logged_in?
@@ -51,4 +52,7 @@ class SessionsController < ApplicationController
       trying_to_login_user.authenticate(params[:session][:password])
     end
 
+    def set_controllers_name
+      @controller = 'sessions'
+    end
 end
