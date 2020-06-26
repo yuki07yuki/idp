@@ -1,6 +1,6 @@
 class ResidentsController < ApplicationController
   include SessionsHelper
-  before_action :admin
+  before_action :admin, :set_controllers_name
 
   def new
     @resident = Resident.new
@@ -45,7 +45,7 @@ class ResidentsController < ApplicationController
 
   def destroy
     the_resident.destroy
-    flash[:success] = t('.destroy')
+    flash[:success] = t('.success')
     redirect_to '/residents/index'
   end
 
@@ -108,5 +108,9 @@ class ResidentsController < ApplicationController
         flash[:danger] = "Please log in to continue"
         redirect_to '/login'
       end
+    end
+
+    def set_controllers_name
+      @controller = 'residents'
     end
 end
