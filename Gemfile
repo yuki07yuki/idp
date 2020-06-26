@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+ruby '2.6.5'
 gem 'rails',      '6.0.2.2'
 gem 'bcrypt',     '3.1.13'
 gem 'will_paginate', '3.1.8'
