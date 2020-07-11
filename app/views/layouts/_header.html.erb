@@ -10,7 +10,7 @@
         </button>
       </div>
       <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <% if @controller && @controller = 'residents' %>
+        <% if @controller && @controller == 'residents' %>
 
           <% if logged_in? %>
             <li><%= link_to "Log out",
