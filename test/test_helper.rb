@@ -3,7 +3,21 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require "minitest/reporters"
 
-Minitest::Reporters.use!
+module Minitest
+  module Reporters
+    def self.choose_reporters(console_reporters, env)
+      if env["TM_PID"]
+        [RubyMateReporter.new]
+      elsif env["RM_INFO"] || env["TEAMCITY_VERSION"]
+        [RubyMineReporter.new]
+      else
+        Array(console_reporters)
+      end
+    end
+  end
+end
+
+Minitest::Reporters.use! Minitest::Reporters::ProgressReporter.new
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers

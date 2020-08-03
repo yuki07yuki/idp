@@ -12,19 +12,19 @@
     <%= hidden_field_tag :resident_id, @resident.id %>
     <%= hidden_field_tag :visitor_pass_id, @visitor_pass.id %>
 
-    <%= f.label :name, "Name" %>
+    <%= f.label :name, "name" %>
     <%= f.text_field :name, class: 'form-control' %>
 
-    <%= f.label :ic, "IC" %>
+    <%= f.label :ic, "ic" %>
     <%= f.text_field :ic, class: 'form-control' %>
 
-    <%= f.label :phone, "Phone No." %>
+    <%= f.label :phone, "phone no." %>
     <%= f.text_field :phone, class: 'form-control' %>
 
     <%= f.label :email %>
     <%= f.email_field :email, class: 'form-control' %>
 
-    <%= f.label :car, "Car No. ( optional )" %>
+    <%= f.label :car, "car no. ( optional )" %>
     <%= f.text_field :car, class: 'form-control' %>
 
     <%= f.label :secret_key, "Secret key" %>

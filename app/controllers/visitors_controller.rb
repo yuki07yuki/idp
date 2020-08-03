@@ -35,10 +35,8 @@ class VisitorsController < ApplicationController
 
     # verify the secret key submitted by the visitor
     if correct_secret_key? && @visitor.save
+
       send_qrcode
-      # qrcode_client = QrcodeClient.new
-      # qrcode_client.generate2(resident: @resident, visitor: @visitor, path: path)
-      # ResidentMailer.qrcode(@visitor, path).deliver_now
 
       @visitor_pass.update(active: false)
 

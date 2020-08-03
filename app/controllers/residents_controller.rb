@@ -1,4 +1,5 @@
 class ResidentsController < ApplicationController
+
   include SessionsHelper
   before_action :admin, :set_controllers_name
 
